@@ -1,2 +1,2 @@
 # my-movies
-Movies app
+Movies-app
