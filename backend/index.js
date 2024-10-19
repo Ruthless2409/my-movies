@@ -5,7 +5,7 @@ import path from "path";
 
 //files
 import connectDB from "./config/db.js";
-
+import userRoute from "./routes/userRoute.js";
 //Config
 dotenv.config();
 connectDB();
@@ -20,7 +20,7 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
 
 //Routes
-
+app.use("/api/v1/users",userRoute)
 
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
