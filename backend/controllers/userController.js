@@ -9,7 +9,7 @@ const createUser = asyncHandler(async (req,res) => {
         throw new Error ("Please fill all field");
     }
     const userExists = await User.findOne({email});
-    if(userExists) res.status(400).send("User already existsz");
+    if(userExists) res.status(400).send("User already exists");
 
     //hash the user password
     const salt = await bcrypt.genSalt(10);
@@ -36,7 +36,7 @@ const loginUser = asyncHandler(async (req,res) => {
     if(existingUser){
         const isPasswordValid= await bcrypt.compare(password,existingUser.password);
         if(isPasswordValid){
-            createToken(res,existingUser);
+            createToken(res,existingUser._id);
             res.status(201).json(
                 {
                     _id: existingUser._id,
@@ -62,4 +62,9 @@ const logoutCurrentUser = asyncHandler(async (req,res) => {
     });
     res.status(200).json({message: "Logged out Successfully"});
 });
-export {createUser,loginUser,logoutCurrentUser};
+
+const getAllUsers = asyncHandler(async (req,res) => {
+    const users = await User.find({});
+    res.json(users);
+});
+export {createUser,loginUser,logoutCurrentUser, getAllUsers};

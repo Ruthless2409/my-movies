@@ -11,18 +11,18 @@ const authenticate = asyncHandler(async (req,res,next) =>
     if(token){
         try{
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user= await User.findbyId(decoded.userId).select("-password");
+            req.user= await User.findById(decoded.userId).select("-password");
             next();
         }catch(error){
             res.status(401);
-            throw new Error("Auth failed, token not authorised");
+            throw new Error("Not authorised, token failed.");
         }
         
     }
     else
     {
         res.status(401);
-        throw new Error("Auth failed, token not authorised");
+        throw new Error("Not authorised , no token");
     }
 });
 
