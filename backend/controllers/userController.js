@@ -82,5 +82,6 @@ const getCurrentUserProfile = asyncHandler(async (req, res) => {
       throw new Error("User not found.");
     }
   });
+  
 
 export {createUser,loginUser,logoutCurrentUser, getAllUsers, getCurrentUserProfile};
