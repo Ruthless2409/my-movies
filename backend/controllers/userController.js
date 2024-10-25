@@ -82,6 +82,28 @@ const getCurrentUserProfile = asyncHandler(async (req, res) => {
       throw new Error("User not found.");
     }
   });
-  
 
-export {createUser,loginUser,logoutCurrentUser, getAllUsers, getCurrentUserProfile};
+const updateCurrentUserProfile = asyncHandler(async (req,res)=>{
+    const user= await User.findById(req.user._id);
+    if(user){
+        user.username = user.username || req.body.username;
+        user.email = user.email || req.body.email;
+        if(req.body.password){
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt);
+            user.password = hashedPassword;
+        }
+        const updatedUser =await User.save();
+        res.json({
+            _id: updatedUser._id,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin
+        });
+    } else {
+       res.status(404);
+       throw new Error("User not found"); 
+    }
+});
+
+export {createUser,loginUser,logoutCurrentUser, getAllUsers, getCurrentUserProfile, updateCurrentUserProfile};
