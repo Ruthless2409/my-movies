@@ -6,6 +6,7 @@ import { createUser, loginUser
     getCurrentUserProfile,
     updateCurrentUserProfile
 } from "../controllers/userController.js";
+
 //middlewares
 import { authenticate, authoriseAdmin } from "../middlewares/authMiddleware.js";
 
